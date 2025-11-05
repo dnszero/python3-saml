@@ -52,6 +52,15 @@ lint = [
     "black==24.4.2",
     "flake8>=3.6.0, <=5.0.0",
 ]
+demo-django = [
+    "Django==4.1.13",
+]
+demo-flask = [
+    "flask==1.0",
+]
+demo-tornado = [
+    "tornado==6.4.1",
+]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
