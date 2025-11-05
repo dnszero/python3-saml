@@ -1,4 +1,4 @@
-PIP=pip
+UV=uv
 BLACK=black
 FLAKE8=flake8
 PYTEST=pytest
@@ -11,13 +11,13 @@ TESTS=tests/src/OneLogin/saml2_tests
 SOURCES=$(MAIN_SOURCE) $(DEMOS) $(TESTS)
 
 install-req:
-	$(PIP) install .
+	$(UV) pip install .
 
 install-test:
-	$(PIP) install -e ".[test]"
+	$(UV) pip install -e ".[test]"
 
 install-lint:
-	$(PIP) install -e ".[lint]"
+	$(UV) pip install -e ".[lint]"
 
 pytest:
 	$(PYTEST)

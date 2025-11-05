@@ -18,7 +18,6 @@ jobs:
       fail-fast: false
       matrix:
         python-version:
-          - "3.7"
           - "3.8"
           - "3.9"
           - "3.10"
@@ -30,15 +29,13 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: actions/cache@v4
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
       with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
     - name: Install dependencies
       run: |
-        pip install -U setuptools
         sudo apt-get update -qq
         sudo apt-get install -qq swig libxml2-dev libxmlsec1-dev
         make install-req
@@ -52,15 +49,13 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: "3.12"
-    - uses: actions/cache@v4
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
       with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
     - name: Install dependencies
       run: |
-        pip install -U setuptools
         sudo apt-get update -qq
         sudo apt-get install -qq swig libxml2-dev libxmlsec1-dev
         make install-req
@@ -78,15 +73,13 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: "3.12"
-    - uses: actions/cache@v4
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
       with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
     - name: Install dependencies
       run: |
-        pip install -U setuptools
         sudo apt-get update -qq
         sudo apt-get install -qq swig libxml2-dev libxmlsec1-dev
         make install-req
@@ -95,6 +88,6 @@ jobs:
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: |
-        pip install coveralls
+        uv pip install coveralls
         make coverage
         make coveralls      
