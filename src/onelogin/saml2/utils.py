@@ -10,8 +10,7 @@ Auxiliary class of SAML Python Toolkit.
 import base64
 import warnings
 from copy import deepcopy
-import calendar
-from datetime import datetime
+from datetime import datetime, timezone
 from hashlib import sha1, sha256, sha384, sha512
 from isodate import parse_duration as duration_parser
 import re
@@ -389,7 +388,7 @@ class OneLogin_Saml2_Utils(object):
         :return: SAML2 timestamp.
         :rtype: string
         """
-        data = datetime.utcfromtimestamp(float(time))
+        data = datetime.fromtimestamp(float(time), timezone.utc)
         return data.strftime(OneLogin_Saml2_Utils.TIME_FORMAT)
 
     @staticmethod
@@ -405,17 +404,17 @@ class OneLogin_Saml2_Utils(object):
         :rtype: int
         """
         try:
-            data = datetime.strptime(timestr, OneLogin_Saml2_Utils.TIME_FORMAT)
+            data = datetime.strptime(timestr, OneLogin_Saml2_Utils.TIME_FORMAT).replace(tzinfo=timezone.utc)
         except ValueError:
             try:
-                data = datetime.strptime(timestr, OneLogin_Saml2_Utils.TIME_FORMAT_2)
+                data = datetime.strptime(timestr, OneLogin_Saml2_Utils.TIME_FORMAT_2).replace(tzinfo=timezone.utc)
             except ValueError:
                 elem = OneLogin_Saml2_Utils.TIME_FORMAT_WITH_FRAGMENT.match(timestr)
                 if not elem:
                     raise Exception("time data %s does not match format %s" % (timestr, r"yyyy-mm-ddThh:mm:ss(\.s+)?Z"))
-                data = datetime.strptime(elem.groups()[0] + "Z", OneLogin_Saml2_Utils.TIME_FORMAT)
+                data = datetime.strptime(elem.groups()[0] + "Z", OneLogin_Saml2_Utils.TIME_FORMAT).replace(tzinfo=timezone.utc)
 
-        return calendar.timegm(data.utctimetuple())
+        return int(data.timestamp())
 
     @staticmethod
     def now():
@@ -423,7 +422,7 @@ class OneLogin_Saml2_Utils(object):
         :return: unix timestamp of actual time.
         :rtype: int
         """
-        return calendar.timegm(datetime.utcnow().utctimetuple())
+        return int(datetime.now(timezone.utc).timestamp())
 
     @staticmethod
     def parse_duration(duration, timestamp=None):
@@ -445,10 +444,10 @@ class OneLogin_Saml2_Utils(object):
 
         timedelta = duration_parser(duration)
         if timestamp is None:
-            data = datetime.utcnow() + timedelta
+            data = datetime.now(timezone.utc) + timedelta
         else:
-            data = datetime.utcfromtimestamp(timestamp) + timedelta
-        return calendar.timegm(data.utctimetuple())
+            data = datetime.fromtimestamp(timestamp, timezone.utc) + timedelta
+        return int(data.timestamp())
 
     @staticmethod
     def get_expire_time(cache_duration=None, valid_until=None):

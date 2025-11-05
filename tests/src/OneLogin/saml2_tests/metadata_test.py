@@ -4,7 +4,7 @@
 import json
 from os.path import dirname, join, exists
 from time import strftime
-from datetime import datetime
+from datetime import datetime, timezone
 import unittest
 
 from onelogin.saml2 import compat
@@ -97,7 +97,7 @@ class OneLogin_Saml2_Metadata_Test(unittest.TestCase):
         self.assertNotIn("cacheDuration", metadata5)
         self.assertIn('validUntil="2014-10-01T11:04:29Z"', metadata5)
 
-        datetime_value = datetime.now()
+        datetime_value = datetime.now(timezone.utc)
         metadata6 = OneLogin_Saml2_Metadata.builder(sp_data, security["authnRequestsSigned"], security["wantAssertionsSigned"], datetime_value, "P1Y", contacts, organization)
         self.assertIsNotNone(metadata5)
         self.assertIn("<md:SPSSODescriptor", metadata6)

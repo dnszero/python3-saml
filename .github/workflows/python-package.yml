@@ -70,6 +70,7 @@ jobs:
         make flake8
         make black
   coveralls:
+    if: ${{ github.secret_source == 'Actions' }}
     runs-on: ubuntu-22.04
     environment: CI
     steps:
