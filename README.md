@@ -1230,9 +1230,7 @@ To run the demo you need to install the requirements first. Load your
 virtualenv and execute:
 
 ```
- uv pip install -e ".[demo-flask]"
- # or with pip:
- # pip install -e ".[demo-flask]"
+ pip install -r demo-flask/requirements.txt
 ```
 
 This will install flask and its dependencies. Once it has finished, you have to complete the configuration
@@ -1304,10 +1302,9 @@ apt-get install libxml2-dev libxmlsec1-dev libxmlsec1-openssl
 To run the demo you need to install the requirements first. Load your
 virtualenv and execute:
 ```
- uv pip install -e ".[demo-tornado]"
- # or with pip:
- # pip install -e ".[demo-tornado]"
+ pip install -r demo-tornado/requirements.txt
 ```
+
 
 This will install tornado and its dependencies. Once it has finished, you have to complete the configuration
 of the toolkit. You'll find it at `demo-tornado/saml/settings.json`
@@ -1373,9 +1370,7 @@ You'll need a virtualenv with the toolkit installed on it.
 To run the demo you need to install the requirements first. Load your
 virtualenv and execute:
 ```
- uv pip install -e ".[demo-django]"
- # or with pip:
- # pip install -e ".[demo-django]"
+ pip install -r demo-django/requirements.txt
 ```
 This will install django and its dependencies. Once it has finished, you have to complete the configuration of the toolkit.
 
